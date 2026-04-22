@@ -1,0 +1,3 @@
+# Pretendard variable woff2를 여기에 배치:
+# curl -L -o PretendardVariable.woff2 \
+#   https://github.com/orioncactus/pretendard/raw/main/packages/pretendard/dist/web/variable/woff2/PretendardVariable.woff2

@@ -1,0 +1,16 @@
+{
+  "Common": {
+    "siteName": "template-typescript-nextjs",
+    "loading": "Loading",
+    "notFoundTitle": "Page not found",
+    "notFoundDescription": "The page you requested does not exist.",
+    "errorTitle": "Something went wrong",
+    "errorDescription": "Please try reloading the page.",
+    "retry": "Retry",
+    "home": "Home"
+  },
+  "Home": {
+    "heading": "Hello, Next.js",
+    "description": "An orthodox starter with ko.* / en.* subdomain i18n baked in."
+  }
+}
