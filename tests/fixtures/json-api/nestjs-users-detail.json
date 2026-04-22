@@ -1,0 +1,14 @@
+{
+  "jsonapi": { "version": "1.1" },
+  "data": {
+    "type": "users",
+    "id": "01JG00000000000000000000A1",
+    "attributes": {
+      "username": "alice",
+      "email": "alice@example.com",
+      "created_at": "2026-04-20T12:00:00.000Z"
+    },
+    "relationships": {},
+    "links": { "self": "/api/v1/public/users/01JG00000000000000000000A1" }
+  }
+}

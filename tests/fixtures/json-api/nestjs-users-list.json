@@ -1,0 +1,40 @@
+{
+  "jsonapi": { "version": "1.1" },
+  "data": [
+    {
+      "type": "users",
+      "id": "01JG00000000000000000000A1",
+      "attributes": {
+        "username": "alice",
+        "email": "alice@example.com",
+        "created_at": "2026-04-20T12:00:00.000Z"
+      },
+      "relationships": {},
+      "links": { "self": "/api/v1/public/users/01JG00000000000000000000A1" }
+    },
+    {
+      "type": "users",
+      "id": "01JG00000000000000000000B2",
+      "attributes": {
+        "username": "bob",
+        "email": "bob@example.com",
+        "created_at": "2026-04-21T12:00:00.000Z"
+      },
+      "relationships": {},
+      "links": { "self": "/api/v1/public/users/01JG00000000000000000000B2" }
+    }
+  ],
+  "included": [],
+  "meta": {
+    "total-count": 3,
+    "page-number": 1,
+    "page-size": 2,
+    "page-count": 2
+  },
+  "links": {
+    "first": "https://api.example.com/v1/public/users?page%5Bnumber%5D=1",
+    "prev": null,
+    "next": "https://api.example.com/v1/public/users?page%5Bnumber%5D=2",
+    "last": "https://api.example.com/v1/public/users?page%5Bnumber%5D=2"
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "jsonapi": { "version": "1.1" },
+  "data": [
+    {
+      "type": "User",
+      "id": "11111111-1111-1111-1111-111111111111",
+      "attributes": {
+        "username": "carol",
+        "email": "carol@example.com",
+        "created_at": "2026-04-19T08:00:00Z"
+      },
+      "relationships": {
+        "files": { "data": [] }
+      },
+      "links": { "self": "/api/v1/public/users/11111111-1111-1111-1111-111111111111" }
+    }
+  ],
+  "meta": {
+    "total-count": 1,
+    "page-number": 1,
+    "page-size": 25,
+    "page-count": 1
+  },
+  "links": {
+    "first": "https://api.example.com/api/v1/public/users?page%5Bnumber%5D=1",
+    "prev": null,
+    "next": null,
+    "last": "https://api.example.com/api/v1/public/users?page%5Bnumber%5D=1"
+  }
+}

@@ -1,24 +1,88 @@
-// TODO: 백엔드 템플릿 지원 필요.
-//   - JSON:API 1.1 스펙 수용 여부 및 경로(/api/v1/public/*) 합의
-//   - 엔드포인트별 스키마·함수 (template-typescript-nestjs와 타입 공유 전략)
-//   - 인증: 쿠키 vs Authorization Bearer, 세션 저장 위치
-//   - 에러 포맷: 한국어 메시지, Problem Details 호환 여부
-//   - 재시도/타임아웃/캐시 정책 (RSC fetch 옵션과 ofetch 조합)
+// TODO: 아래 항목은 후속 세션에서 작업:
+//   - 인증: 쿠키 vs Authorization Bearer, 세션 저장 위치, 리프레시 플로우
 //   - OpenAPI 스키마 → 타입 자동 생성 파이프라인
-// 이번 세션에서는 빈 껍데기만 제공하고, 별도 세션에서 위 항목을 본격 작업한다.
 
 import { ofetch } from "ofetch";
 import { env } from "@/lib/env";
-import { ApiRequestError } from "./types";
+import {
+  ApiRequestError,
+  ApiValidationError,
+  type ApiErrorInit,
+  type FieldError,
+  type JsonApiError,
+} from "./types";
+
+function extractErrors(body: unknown): JsonApiError[] {
+  if (
+    body &&
+    typeof body === "object" &&
+    "errors" in body &&
+    Array.isArray((body as { errors: unknown }).errors)
+  ) {
+    return (body as { errors: JsonApiError[] }).errors;
+  }
+  return [];
+}
+
+function isValidationShape(status: number, errors: JsonApiError[]): boolean {
+  if (status !== 400 && status !== 422) return false;
+  return errors.some(
+    (e) => e.source?.pointer !== undefined || e.source?.parameter !== undefined,
+  );
+}
+
+function toFieldError(e: JsonApiError): FieldError {
+  return {
+    pointer: e.source?.pointer,
+    parameter: e.source?.parameter,
+    detail: e.detail ?? e.title ?? e.code ?? "Invalid value",
+    code: e.code,
+  };
+}
+
+export interface MinimalErrorResponse {
+  status: number;
+  statusText?: string;
+  _data?: unknown;
+}
+
+export function toApiError(response: MinimalErrorResponse): ApiRequestError {
+  const status = response.status;
+  const body = response._data;
+  const errors = extractErrors(body);
+
+  if (errors.length === 0) {
+    return new ApiRequestError({
+      status,
+      message: response.statusText || "API request failed",
+      details: body,
+    });
+  }
+
+  const first = errors[0];
+  const base: ApiErrorInit = {
+    status,
+    message:
+      first.detail ?? first.title ?? response.statusText ?? "API request failed",
+    code: first.code,
+    source: first.source,
+    errors,
+    details: body,
+  };
+
+  if (isValidationShape(status, errors)) {
+    return new ApiValidationError({
+      ...base,
+      fieldErrors: errors.map(toFieldError),
+    });
+  }
+  return new ApiRequestError(base);
+}
 
 export const apiClient = ofetch.create({
   baseURL: env.NEXT_PUBLIC_API_BASE_URL,
   retry: 0,
   onResponseError({ response }) {
-    throw new ApiRequestError({
-      status: response.status,
-      message: response.statusText || "API request failed",
-      details: response._data,
-    });
+    throw toApiError(response as MinimalErrorResponse);
   },
 });
