@@ -5,6 +5,7 @@ import { afterEach } from "vitest";
 process.env.NEXT_PUBLIC_SITE_HOST_KO ??= "http://localhost:3000";
 process.env.NEXT_PUBLIC_SITE_HOST_EN ??= "http://localhost:3000";
 process.env.NEXT_PUBLIC_API_BASE_URL ??= "http://localhost:4000";
+process.env.API_BASE_URL ??= "http://localhost:54000/api/v1";
 
 afterEach(() => {
   cleanup();

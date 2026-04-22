@@ -27,6 +27,50 @@ export interface JsonApiRequestInput<
   >;
 }
 
+export interface JsonApiBodyInput<
+  TAttrs = Record<string, unknown>,
+  TRelationships = Record<string, unknown>,
+> {
+  type: string;
+  id?: string;
+  attributes?: TAttrs;
+  relationships?: TRelationships;
+  meta?: Record<string, unknown>;
+}
+
+export function buildJsonApiBody<
+  TAttrs = Record<string, unknown>,
+  TRelationships = Record<string, unknown>,
+>(
+  input: JsonApiBodyInput<TAttrs, TRelationships>,
+) {
+  return {
+    data: {
+      type: input.type,
+      ...(input.id !== undefined ? { id: input.id } : {}),
+      ...(input.attributes !== undefined
+        ? { attributes: input.attributes }
+        : {}),
+      ...(input.relationships !== undefined
+        ? { relationships: input.relationships }
+        : {}),
+    },
+    ...(input.meta !== undefined ? { meta: input.meta } : {}),
+  };
+}
+
+type JsonApiMutationMethod = "POST" | "PUT" | "PATCH";
+
+export interface JsonApiMutationInput<
+  TData,
+  TAttrs = Record<string, unknown>,
+  TIncluded = JsonApiResource<Record<string, unknown>>,
+  TRelationships = Record<string, unknown>,
+> extends Omit<JsonApiRequestInput<TData, TIncluded>, "method" | "body">,
+    JsonApiBodyInput<TAttrs, TRelationships> {
+  method?: JsonApiMutationMethod;
+}
+
 export async function jsonApiRequest<
   TData,
   TIncluded = JsonApiResource<Record<string, unknown>>,
@@ -55,4 +99,35 @@ export async function jsonApiRequest<
   }
 
   return unwrapped;
+}
+
+export async function jsonApiMutation<
+  TData,
+  TAttrs = Record<string, unknown>,
+  TIncluded = JsonApiResource<Record<string, unknown>>,
+  TRelationships = Record<string, unknown>,
+>(
+  input: JsonApiMutationInput<TData, TAttrs, TIncluded, TRelationships>,
+): Promise<UnwrappedDocument<TData, TIncluded>> {
+  const {
+    method = "POST",
+    type,
+    id,
+    attributes,
+    relationships,
+    meta,
+    ...requestInput
+  } = input;
+
+  return jsonApiRequest({
+    ...requestInput,
+    method,
+    body: buildJsonApiBody({
+      type,
+      id,
+      attributes,
+      relationships,
+      meta,
+    }),
+  });
 }

@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { toApiError } from "@/lib/api/client";
+import { toApiError } from "@/lib/api/errors";
 import {
   ApiRequestError,
   ApiValidationError,
