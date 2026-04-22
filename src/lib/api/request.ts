@@ -2,6 +2,10 @@ import type { FetchOptions } from "ofetch";
 import type { ZodSchema } from "zod";
 
 import { apiClient } from "./client";
+import {
+  buildJsonApiBody,
+  type JsonApiBodyInput,
+} from "./document";
 import { buildJsonApiQuery, type JsonApiQueryInput } from "./query";
 import { unwrapJsonApi } from "./envelope";
 import { parseResponse } from "./schema";
@@ -25,38 +29,6 @@ export interface JsonApiRequestInput<
     FetchOptions,
     "method" | "body" | "baseURL" | "query"
   >;
-}
-
-export interface JsonApiBodyInput<
-  TAttrs = Record<string, unknown>,
-  TRelationships = Record<string, unknown>,
-> {
-  type: string;
-  id?: string;
-  attributes?: TAttrs;
-  relationships?: TRelationships;
-  meta?: Record<string, unknown>;
-}
-
-export function buildJsonApiBody<
-  TAttrs = Record<string, unknown>,
-  TRelationships = Record<string, unknown>,
->(
-  input: JsonApiBodyInput<TAttrs, TRelationships>,
-) {
-  return {
-    data: {
-      type: input.type,
-      ...(input.id !== undefined ? { id: input.id } : {}),
-      ...(input.attributes !== undefined
-        ? { attributes: input.attributes }
-        : {}),
-      ...(input.relationships !== undefined
-        ? { relationships: input.relationships }
-        : {}),
-    },
-    ...(input.meta !== undefined ? { meta: input.meta } : {}),
-  };
 }
 
 type JsonApiMutationMethod = "POST" | "PUT" | "PATCH";
@@ -131,3 +103,5 @@ export async function jsonApiMutation<
     }),
   });
 }
+
+export { buildJsonApiBody, type JsonApiBodyInput } from "./document";

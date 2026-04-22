@@ -14,7 +14,6 @@ export const env = createEnv({
     NEXT_PUBLIC_SITE_HOST_KO: z.string().min(1),
     NEXT_PUBLIC_SITE_HOST_EN: z.string().min(1),
     NEXT_PUBLIC_DEFAULT_LOCALE: z.enum(["ko", "en"]).default("ko"),
-    NEXT_PUBLIC_API_BASE_URL: z.string().url().optional(),
     NEXT_PUBLIC_SENTRY_DSN: z.string().url().optional(),
   },
   runtimeEnv: {
@@ -27,7 +26,6 @@ export const env = createEnv({
     NEXT_PUBLIC_SITE_HOST_KO: process.env.NEXT_PUBLIC_SITE_HOST_KO,
     NEXT_PUBLIC_SITE_HOST_EN: process.env.NEXT_PUBLIC_SITE_HOST_EN,
     NEXT_PUBLIC_DEFAULT_LOCALE: process.env.NEXT_PUBLIC_DEFAULT_LOCALE,
-    NEXT_PUBLIC_API_BASE_URL: process.env.NEXT_PUBLIC_API_BASE_URL,
     NEXT_PUBLIC_SENTRY_DSN: process.env.NEXT_PUBLIC_SENTRY_DSN,
   },
   skipValidation: !!process.env.SKIP_ENV_VALIDATION,

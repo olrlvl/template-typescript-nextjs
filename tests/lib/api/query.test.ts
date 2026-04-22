@@ -14,11 +14,11 @@ describe("TestBuildJsonApiQuery", () => {
   it("test_filter의_lookup이_여러_개면_각각_쿼리로_방출된다", () => {
     const qs = buildJsonApiQuery({
       filter: {
-        created_at: { gte: "2026-01-01", lte: "2026-12-31" },
+        createdAt: { gte: "2026-01-01", lte: "2026-12-31" },
       },
     });
     expect(qs).toBe(
-      "filter%5Bcreated_at__gte%5D=2026-01-01&filter%5Bcreated_at__lte%5D=2026-12-31",
+      "filter%5BcreatedAt__gte%5D=2026-01-01&filter%5BcreatedAt__lte%5D=2026-12-31",
     );
   });
 
@@ -35,8 +35,8 @@ describe("TestBuildJsonApiQuery", () => {
   });
 
   it("test_sort는_마이너스_접두사로_내림차순을_표현한다", () => {
-    const qs = buildJsonApiQuery({ sort: ["-created_at", "username"] });
-    expect(qs).toBe("sort=-created_at%2Cusername");
+    const qs = buildJsonApiQuery({ sort: ["-createdAt", "username"] });
+    expect(qs).toBe("sort=-createdAt%2Cusername");
   });
 
   it("test_page_number와_size가_둘_다_있으면_둘_다_방출된다", () => {
@@ -47,10 +47,10 @@ describe("TestBuildJsonApiQuery", () => {
   it("test_date_값은_iso_문자열로_직렬화된다", () => {
     const date = new Date("2026-04-22T00:00:00.000Z");
     const qs = buildJsonApiQuery({
-      filter: { created_at: { gte: date } },
+      filter: { createdAt: { gte: date } },
     });
     expect(qs).toBe(
-      "filter%5Bcreated_at__gte%5D=2026-04-22T00%3A00%3A00.000Z",
+      "filter%5BcreatedAt__gte%5D=2026-04-22T00%3A00%3A00.000Z",
     );
   });
 
@@ -77,9 +77,9 @@ describe("TestBuildJsonApiQuery", () => {
 
   it("test_boolean_값은_소문자_문자열로_방출된다", () => {
     const qs = buildJsonApiQuery({
-      filter: { is_active: { exact: true } },
+      filter: { isActive: { exact: true } },
     });
-    expect(qs).toBe("filter%5Bis_active__exact%5D=true");
+    expect(qs).toBe("filter%5BisActive__exact%5D=true");
   });
 
   it("test_빈_배열_include는_방출되지_않는다", () => {

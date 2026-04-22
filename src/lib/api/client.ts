@@ -2,6 +2,7 @@ import { ofetch } from "ofetch";
 import { cookies } from "next/headers";
 import { env } from "@/lib/env";
 import { ApiRequestError, type JsonApiError } from "./types";
+import { buildJsonApiBody, type JsonApiBodyInput } from "./document";
 import { toApiError, type MinimalErrorResponse } from "./errors";
 
 export { toApiError, type MinimalErrorResponse };
@@ -23,8 +24,10 @@ export const apiClient = ofetch.create({
   async onRequest({ options }) {
     const token = await getAccessToken();
     const headers = new Headers(options.headers);
-    headers.set("Content-Type", "application/json");
     headers.set("Accept", "application/vnd.api+json");
+    if (options.body !== undefined) {
+      headers.set("Content-Type", "application/vnd.api+json");
+    }
     if (token) headers.set("Authorization", `Bearer ${token}`);
     options.headers = headers;
   },
@@ -40,7 +43,7 @@ export async function postAndExtractRefreshCookie(
   const res = await fetch(`${env.API_BASE_URL}${path}`, {
     method: "POST",
     headers: {
-      "Content-Type": "application/json",
+      "Content-Type": "application/vnd.api+json",
       Accept: "application/vnd.api+json",
     },
     body: JSON.stringify(body),
@@ -70,4 +73,14 @@ export async function postAndExtractRefreshCookie(
     accessToken: json.meta["access-token"],
     refreshToken: match[1],
   };
+}
+
+export async function postJsonApiAndExtractRefreshCookie<
+  TAttrs = Record<string, unknown>,
+  TRelationships = Record<string, unknown>,
+>(
+  path: string,
+  body: JsonApiBodyInput<TAttrs, TRelationships>,
+): Promise<{ data: unknown; accessToken: string; refreshToken: string }> {
+  return postAndExtractRefreshCookie(path, buildJsonApiBody(body));
 }

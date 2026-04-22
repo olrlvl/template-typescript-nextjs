@@ -1,8 +1,8 @@
 "use server";
 
 import { redirect } from "next/navigation";
-import { postAndExtractRefreshCookie } from "@/lib/api/client";
-import { clearSession, setSession } from "@/lib/auth/session";
+import { postJsonApiAndExtractRefreshCookie } from "@/lib/api/client";
+import { setSession, signoutSession } from "@/lib/auth/session";
 import { ApiRequestError } from "@/lib/api/types";
 
 export type AuthActionState = { error?: string };
@@ -14,9 +14,12 @@ export async function signinAction(
   const email = String(formData.get("email") ?? "");
   const password = String(formData.get("password") ?? "");
   try {
-    const { accessToken, refreshToken } = await postAndExtractRefreshCookie(
+    const { accessToken, refreshToken } = await postJsonApiAndExtractRefreshCookie(
       "/public/auth/signin",
-      { email, password },
+      {
+        type: "auth-signin",
+        attributes: { email, password },
+      },
     );
     await setSession(accessToken, refreshToken);
   } catch (e: unknown) {
@@ -35,9 +38,12 @@ export async function signupAction(
   const username = String(formData.get("username") ?? "");
   const password = String(formData.get("password") ?? "");
   try {
-    const { accessToken, refreshToken } = await postAndExtractRefreshCookie(
+    const { accessToken, refreshToken } = await postJsonApiAndExtractRefreshCookie(
       "/public/auth/signup",
-      { email, username, password },
+      {
+        type: "auth-signup",
+        attributes: { email, username, password },
+      },
     );
     await setSession(accessToken, refreshToken);
   } catch (e: unknown) {
@@ -49,6 +55,6 @@ export async function signupAction(
 }
 
 export async function signoutAction(): Promise<void> {
-  await clearSession();
+  await signoutSession();
   redirect("/");
 }

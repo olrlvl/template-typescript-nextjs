@@ -11,7 +11,7 @@ HTTP API 클라이언트. 백엔드 템플릿(`template-typescript-nestjs`, `tem
 
 | File | Description |
 |------|-------------|
-| `client.ts` | `apiClient` — `ofetch.create({ baseURL: env.NEXT_PUBLIC_API_BASE_URL })`. `onResponseError` 에서 `toApiError(response)` 를 throw. `toApiError` 도 export 되어 단위 테스트 가능 |
+| `client.ts` | `apiClient` — `ofetch.create({ baseURL: env.API_BASE_URL })`. `onResponseError` 에서 `toApiError(response)` 를 throw. `toApiError` 도 export 되어 단위 테스트 가능 |
 | `types.ts` | JSON:API 타입(`JsonApiResource`, `JsonApiDocument`, `JsonApiError`, `Pagination`, `UnwrappedDocument`) + 에러 클래스(`ApiRequestError`, `ApiValidationError`, `FieldError`) + `ApiError` 호환 alias |
 | `schema.ts` | `parseResponse<T>(schema, data)` — zod 파서 래핑. 실패 시 `ZodError` 그대로 throw |
 | `query.ts` | `buildJsonApiQuery(input)` — include / filter / sort / page 입력을 JSON:API 쿼리 문자열로 직렬화(순수 함수) |
@@ -51,19 +51,19 @@ const UserListSchema = z.array(z.object({
   attributes: z.object({
     username: z.string(),
     email: z.string(),
-    created_at: z.string(),
+    createdAt: z.string(),
   }),
 }));
 
 const { data, pagination } = await jsonApiRequest({
-  path: "/v1/public/users",
+  path: "/public/users",
   query: {
     include: ["files"],
     filter: {
       username: { icontains: "john" },
-      created_at: { gte: "2026-01-01" },
+      createdAt: { gte: "2026-01-01" },
     },
-    sort: ["-created_at", "username"],
+    sort: ["-createdAt", "username"],
     page: { number: 2, size: 25 },
   },
   schema: UserListSchema,
@@ -74,7 +74,7 @@ const { data, pagination } = await jsonApiRequest({
 
 ```ts
 const { data } = await jsonApiRequest({
-  path: `/v1/public/users/${userId}`,
+  path: `/public/users/${userId}`,
   schema: UserResourceSchema,
 });
 ```
@@ -83,7 +83,7 @@ const { data } = await jsonApiRequest({
 
 ```ts
 const { data } = await jsonApiRequest({
-  path: "/v1/public/posts",
+  path: "/public/posts",
   method: "POST",
   body: { data: { type: "posts", attributes: { title: "..." } } },
   schema: PostResourceSchema,
@@ -94,7 +94,7 @@ const { data } = await jsonApiRequest({
 
 ```ts
 try {
-  await jsonApiRequest({ path: "/v1/public/users", schema: UserListSchema });
+  await jsonApiRequest({ path: "/public/users", schema: UserListSchema });
 } catch (err) {
   if (err instanceof ApiValidationError) {
     err.fieldErrors.forEach(fe => { /* 인라인 메시지 */ });
@@ -109,7 +109,7 @@ try {
 
 ### Internal
 
-- `@/lib/env` — `NEXT_PUBLIC_API_BASE_URL`
+- `@/lib/env` — `API_BASE_URL`
 
 ### External
 

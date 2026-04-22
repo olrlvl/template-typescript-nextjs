@@ -137,7 +137,7 @@ DSN이 비어 있으면 Sentry는 no-op 상태로 유지된다.
 
 ## 열린 항목 (TODO)
 
-- `src/lib/api/client.ts` 상단 주석 참조. 백엔드 템플릿(`template-typescript-nestjs`)과의 JSON:API 연동, 인증, 타입 자동 생성 파이프라인은 **별도 세션**에서 본격 작업한다.
+- OpenAPI 기반 타입 자동 생성 파이프라인은 아직 미구현이다. JSON:API 연동과 인증 세션 경로는 현재 템플릿에 반영되어 있다.
 
 ## 라이선스
 
