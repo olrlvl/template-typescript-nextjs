@@ -19,15 +19,15 @@
 
 | Directory | Purpose |
 |-----------|---------|
-| `src/app/` | App Router 라우트. RSC 기본, `'use client'` 는 파일 최상단 명시 |
-| `src/components/` | 공용 UI/레이아웃 컴포넌트 (현재 비어 있음) |
-| `src/config/` | 사이트 설정 (`site.ts` — 도메인 맵, 메타) |
-| `src/lib/` | 도메인 로직 — `api/`, `i18n/`, `seo/`, `env.ts`, `utils.ts` |
-| `src/styles/` | 전역 CSS (Tailwind v4) |
+| `src/` | 애플리케이션 소스 루트 (see `src/AGENTS.md`) |
+| `src/app/` | App Router 라우트 — layout/page/robots/sitemap/OG (see `src/app/AGENTS.md`) |
+| `src/config/` | 사이트 설정 — `site.ts` (도메인 맵, 메타) (see `src/config/AGENTS.md`) |
+| `src/lib/` | 도메인 로직 — `api/`, `i18n/`, `seo/`, `env.ts`, `utils.ts` (see `src/lib/AGENTS.md`) |
+| `src/styles/` | 전역 CSS (Tailwind v4) (see `src/styles/AGENTS.md`) |
 | `src/middleware.ts` | next-intl 도메인 라우팅 |
-| `locale/` | i18n 리소스 (`ko.json`, `en.json`) |
-| `public/` | 정적 자산 (폰트, favicon, OG) |
-| `tests/` | Vitest 유닛 테스트 |
+| `locale/` | i18n 리소스 `ko.json`, `en.json` (see `locale/AGENTS.md`) |
+| `public/` | 정적 자산 (see `public/AGENTS.md`) |
+| `tests/` | Vitest 유닛 테스트 (see `tests/AGENTS.md`) |
 | `.github/workflows/` | CI |
 | `.claude/` | Claude Code 설정 (`settings.local.json`은 gitignore) |
 
