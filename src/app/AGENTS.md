@@ -5,14 +5,14 @@
 
 ## Purpose
 
-Next.js 16 App Router 엔트리. 루트 `layout.tsx` 가 next-intl 프로바이더와 폰트 변수를 주입하고,
+Next.js 16 App Router 엔트리. 루트 `layout.tsx` 가 next-intl 프로바이더와 로컬 Pretendard 폰트 변수를 주입하고,
 각 파일은 RSC 기본으로 동작한다. Pages Router 는 사용하지 않는다.
 
 ## Key Files
 
 | File | Description |
 |------|-------------|
-| `layout.tsx` | 루트 레이아웃. Pretendard(로컬) + Geist(Google) 폰트 변수, `NextIntlClientProvider`, Website JSON-LD 주입. `generateMetadata`로 `buildMetadata` 호출 |
+| `layout.tsx` | 루트 레이아웃. Pretendard(로컬) 폰트 변수, `NextIntlClientProvider`, Website JSON-LD 주입. `generateMetadata`로 `buildMetadata` 호출 |
 | `page.tsx` | 루트 페이지 (`/`). `getTranslations("Home")` 사용하는 RSC |
 | `loading.tsx` | 라우트 세그먼트 로딩 UI. 스피너만 (텍스트 금지 규칙) |
 | `error.tsx` | 라우트 세그먼트 에러 바운더리. `'use client'`, `reset()` 버튼 제공 |
@@ -55,7 +55,7 @@ Next.js 16 App Router 엔트리. 루트 `layout.tsx` 가 next-intl 프로바이�
 ### External
 
 - `next` — `MetadataRoute`, `ImageResponse`, `Link`
-- `next/font/google`, `next/font/local` — Geist, Pretendard
+- `next/font/local` — Pretendard
 - `next-intl/server` — `getLocale`, `getTranslations`, `getMessages`
 - `next-intl` — `NextIntlClientProvider`, `useTranslations`
 

@@ -5,15 +5,14 @@
 
 ## Purpose
 
-next-intl 도메인 기반 라우팅 구성. `ko` / `en` 두 로케일을 각각 별도 서브도메인에 매핑한다.
-URL 경로에는 로케일 세그먼트가 포함되지 않는다.
+next-intl i18n 라우팅 구성. 기본은 한국어 단일 도메인(`single`)이고, 필요 시 `ko` / `en`을 각각 별도 서브도메인에 매핑하는 도메인 모드(`domain`)를 사용한다. URL 경로에는 로케일 세그먼트가 포함되지 않는다.
 
 ## Key Files
 
 | File | Description |
 |------|-------------|
-| `config.ts` | `locales` (`["ko", "en"]`), `Locale` 타입, `defaultLocale` (env 기반), `localeDomains` 맵, `isLocale` 타입 가드 |
-| `routing.ts` | `defineRouting({ locales, defaultLocale, localeDetection: false, domains: [...] })`. 도메인 → 로케일 매핑 |
+| `config.ts` | `locales` (`["ko", "en"]`), `activeLocales`, `i18nMode`, `defaultLocale`, 호스트/URL 유틸, `isLocale` 타입 가드 |
+| `routing.ts` | `defineRouting({ locales, defaultLocale, localePrefix: "never", localeDetection: false, ...domains })`. `domain` 모드에서만 도메인 → 로케일 매핑 |
 | `request.ts` | `getRequestConfig` — 요청 로케일 확정 후 `locale/<locale>.json` 을 동적 import 해 messages 반환 |
 
 ## For AI Agents
@@ -26,14 +25,16 @@ URL 경로에는 로케일 세그먼트가 포함되지 않는다.
   3. `locale/<code>.json` 생성
   4. `siteConfig.description`, `buildMetadata`, `websiteJsonLd` 등 `Locale` 리터럴을 사용하는 위치가 TS 에러로 노출됨 → 각각 채워 준다
   5. `sitemap.ts` / `robots.ts` 는 자동으로 새 로케일을 포함한다
-- **로케일 감지는 끔**(`localeDetection: false`). 도메인이 단일 진실 공급원이다.
+- **로케일 감지는 끔**(`localeDetection: false`). `single` 모드에서는 기본 로케일, `domain` 모드에서는 도메인이 단일 진실 공급원이다.
 - `routing.ts` 의 `domains` 배열은 `localeDomains` 와 동기화되어야 한다. 직접 하드코딩 금지.
+- 공개 SEO/hreflang/sitemap 로케일 목록은 `locales`가 아니라 `activeLocales`를 사용한다.
 - 로케일 간 링크는 `routing.ts` 에서 export 되는 헬퍼(필요 시 `getAlternateUrl` 같은 크로스 도메인 유틸을 여기에 추가)를 사용. `<Link>` 로 크로스 도메인 이동을 시도하지 말 것.
 
 ### Testing Requirements
 
 - 현재 단위 테스트 없음. 새 유틸 추가 시 `tests/lib/i18n/` 에 미러.
-- 실제 라우팅은 `pnpm dev` 로 `ko.localhost:3000` / `en.localhost:3000` 에서 검증.
+- 기본 개발 라우팅은 `pnpm dev` 로 `localhost:3000` 에서 검증.
+- 도메인 모드는 `NEXT_PUBLIC_I18N_MODE=domain` 설정 후 `ko.localhost:3000` / `en.localhost:3000` 에서 검증.
 
 ### Common Patterns
 
@@ -44,7 +45,7 @@ URL 경로에는 로케일 세그먼트가 포함되지 않는다.
 
 ### Internal
 
-- `@/lib/env` — 도메인 및 기본 로케일 값
+- `@/lib/env` — i18n 모드, 도메인 및 기본 로케일 값
 - 루트 `locale/ko.json`, `locale/en.json` — `request.ts` 가 동적 import
 
 ### External

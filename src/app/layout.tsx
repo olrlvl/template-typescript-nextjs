@@ -1,6 +1,5 @@
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getMessages } from "next-intl/server";
-import { Geist, Geist_Mono } from "next/font/google";
 import localFont from "next/font/local";
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
@@ -16,18 +15,6 @@ const pretendard = localFont({
   weight: "45 920",
 });
 
-const geistSans = Geist({
-  subsets: ["latin"],
-  variable: "--font-geist-sans",
-  display: "swap",
-});
-
-const geistMono = Geist_Mono({
-  subsets: ["latin"],
-  variable: "--font-geist-mono",
-  display: "swap",
-});
-
 export async function generateMetadata(): Promise<Metadata> {
   const locale = (await getLocale()) as Locale;
   return buildMetadata({ locale });
@@ -38,7 +25,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
   const messages = await getMessages();
 
   return (
-    <html lang={locale} className={`${pretendard.variable} ${geistSans.variable} ${geistMono.variable}`}>
+    <html lang={locale} className={pretendard.variable}>
       <body>
         <NextIntlClientProvider messages={messages}>{children}</NextIntlClientProvider>
         <script

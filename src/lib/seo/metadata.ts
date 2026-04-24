@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { siteConfig } from "@/config/site";
-import { locales, type Locale } from "@/lib/i18n/config";
+import { activeLocales, type Locale } from "@/lib/i18n/config";
 
 interface BuildMetadataParams {
   locale: Locale;
@@ -17,7 +17,7 @@ export function buildMetadata({ locale, title, description, path = "/" }: BuildM
   const currentUrl = `${siteConfig.urls[locale]}${path}`;
 
   const languages: Record<string, string> = {};
-  for (const l of locales) {
+  for (const l of activeLocales) {
     languages[l] = `${siteConfig.urls[l]}${path}`;
   }
 

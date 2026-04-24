@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 import { getLocale } from "next-intl/server";
 import { siteConfig } from "@/config/site";
-import { locales, type Locale } from "@/lib/i18n/config";
+import { activeLocales, type Locale } from "@/lib/i18n/config";
 
 const paths = ["/"] as const;
 
@@ -11,7 +11,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   return paths.map((path) => {
     const languages: Record<string, string> = {};
-    for (const l of locales) {
+    for (const l of activeLocales) {
       languages[l] = `${siteConfig.urls[l]}${path}`;
     }
 
