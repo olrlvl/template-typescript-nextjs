@@ -7,10 +7,188 @@
     "errorTitle": "Something went wrong",
     "errorDescription": "Please try reloading the page.",
     "retry": "Retry",
-    "home": "Home"
+    "home": "Home",
+    "navigation": {
+      "home": "Home",
+      "about": "About",
+      "callToAction": "View structure"
+    }
   },
   "Home": {
-    "heading": "Hello, Next.js",
-    "description": "An orthodox starter with ko.* / en.* subdomain i18n baked in."
+    "eyebrow": "Next.js Starter",
+    "heading": "Solid defaults for launching a public web app",
+    "description": "Domain-based i18n, App Router, SEO, and local typography are already wired into a clean baseline.",
+    "panel": {
+      "eyebrow": "Ready",
+      "title": "Add your product screens on top",
+      "body": "Routing and message structure are already in place, so new pages can focus on content and business logic.",
+      "detail": "Next.js 16 · React 19 · next-intl"
+    },
+    "dashboard": {
+      "productsTitle": "Prepared foundations",
+      "viewAll": "View all"
+    },
+    "cards": {
+      "server": {
+        "eyebrow": "Runtime",
+        "title": "Server-first rendering",
+        "body": "The base pages render as RSC, keeping the initial response and SEO path straightforward.",
+        "detail": "Client code is added only where it is needed"
+      },
+      "routing": {
+        "eyebrow": "Routing",
+        "title": "Clean public URLs",
+        "body": "Locale segments stay out of the browser path while domains and middleware decide the active language.",
+        "detail": "The public paths remain / and /about"
+      },
+      "font": {
+        "eyebrow": "Typography",
+        "title": "Stable base typography",
+        "body": "Local Pretendard Variable keeps the text experience consistent without relying on a font network request.",
+        "detail": "It is connected through the global sans stack"
+      }
+    },
+    "about": {
+      "title": "Review the structure in detail",
+      "body": "The about page summarizes the rules that should stay together when public pages are added.",
+      "label": "View about"
+    },
+    "tables": {
+      "foundation": {
+        "title": "Foundation",
+        "rows": {
+          "runtime": {
+            "label": "Server rendering",
+            "value": "RSC"
+          },
+          "routing": {
+            "label": "Domain-based locale",
+            "value": "i18n"
+          },
+          "font": {
+            "label": "Local font",
+            "value": "Ready"
+          }
+        }
+      },
+      "routes": {
+        "title": "Public routes",
+        "rows": {
+          "home": {
+            "label": "Home",
+            "value": "/"
+          },
+          "about": {
+            "label": "About",
+            "value": "/about"
+          },
+          "locale": {
+            "label": "Locale prefix",
+            "value": "hidden"
+          }
+        }
+      }
+    },
+    "guides": {
+      "title": "Operating guides",
+      "server": {
+        "title": "Server components first",
+        "body": "Only split out client components where state is actually needed."
+      },
+      "routing": {
+        "title": "Keep URLs short",
+        "body": "Language handling stays in domains and middleware."
+      },
+      "about": {
+        "title": "Review the structure",
+        "body": "Check the flow before adding the next public page."
+      }
+    }
+  },
+  "About": {
+    "metaTitle": "About",
+    "metaDescription": "A summary of the public page structure, routing, i18n, and SEO flow.",
+    "eyebrow": "Structure",
+    "heading": "Keep new pages consistent as the app grows",
+    "description": "Routes, messages, metadata, and sitemap entries are handled as one flow so even small pages follow the same standard.",
+    "panel": {
+      "eyebrow": "Public Route",
+      "title": "/about",
+      "body": "The file lives below the locale segment, but users only see the clean public path.",
+      "detail": "Domain-based locale handling stays intact"
+    },
+    "dashboard": {
+      "productsTitle": "Structure overview",
+      "viewAll": "View all"
+    },
+    "cards": {
+      "routing": {
+        "eyebrow": "Routing",
+        "title": "Separate file path from public URL",
+        "body": "The file structure follows internal locale matching while the visible URL stays short and predictable.",
+        "detail": "No locale prefix is shown in the browser"
+      },
+      "stack": {
+        "eyebrow": "Stack",
+        "title": "Extend from the same baseline",
+        "body": "Pages share App Router, next-intl, local fonts, and the common SEO metadata builder.",
+        "detail": "New pages reuse the existing setup"
+      },
+      "workflow": {
+        "eyebrow": "Workflow",
+        "title": "Add pages as one set",
+        "body": "Screens, translation keys, metadata, and sitemap entries move together to reduce operational misses.",
+        "detail": "The file is only one part of the change"
+      }
+    },
+    "nextStepEyebrow": "Page Flow",
+    "nextStepTitle": "The next public page flow",
+    "steps": {
+      "create": {
+        "title": "1. Create the page file",
+        "body": "Add the public page in a shape like app/[locale]/path/page.tsx."
+      },
+      "messages": {
+        "title": "2. Add the messages",
+        "body": "Add the same namespace and keys to both locale JSON files."
+      },
+      "sitemap": {
+        "title": "3. Update search metadata",
+        "body": "If the page should be discoverable, update metadata and the sitemap path together."
+      }
+    },
+    "tables": {
+      "flow": {
+        "title": "Page flow",
+        "rows": {
+          "create": {
+            "value": "file"
+          },
+          "messages": {
+            "value": "locale"
+          },
+          "sitemap": {
+            "value": "seo"
+          }
+        }
+      },
+      "publicRoute": {
+        "title": "Public route",
+        "rows": {
+          "path": {
+            "label": "Visible path",
+            "value": "/about"
+          },
+          "locale": {
+            "label": "Locale segment",
+            "value": "hidden"
+          },
+          "metadata": {
+            "label": "Metadata",
+            "value": "ready"
+          }
+        }
+      }
+    }
   }
 }

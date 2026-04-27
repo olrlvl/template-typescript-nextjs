@@ -13,7 +13,7 @@ Next.js 16 App Router 엔트리. 루트 `layout.tsx` 가 next-intl 프로바이�
 | File | Description |
 |------|-------------|
 | `layout.tsx` | 루트 레이아웃. Pretendard(로컬) 폰트 변수, `NextIntlClientProvider`, Website JSON-LD 주입. `generateMetadata`로 `buildMetadata` 호출 |
-| `page.tsx` | 루트 페이지 (`/`). `getTranslations("Home")` 사용하는 RSC |
+| `[locale]/page.tsx` | 내부 로케일 페이지. `localePrefix: "never"` 설정으로 URL에는 로케일 세그먼트가 노출되지 않음 |
 | `loading.tsx` | 라우트 세그먼트 로딩 UI. 스피너만 (텍스트 금지 규칙) |
 | `error.tsx` | 라우트 세그먼트 에러 바운더리. `'use client'`, `reset()` 버튼 제공 |
 | `not-found.tsx` | 404 페이지. `getTranslations("Common")` 사용 |
@@ -26,7 +26,7 @@ Next.js 16 App Router 엔트리. 루트 `layout.tsx` 가 next-intl 프로바이�
 ### Working In This Directory
 
 - **RSC 우선**. 클라이언트 상태가 필요한 파일만 `'use client'` 최상단 선언 (`error.tsx` 참고).
-- 새 라우트 추가: `app/<path>/page.tsx` 생성 → `locale/{ko,en}.json`에 키 추가 → 필요 시 `export const metadata` 또는 `generateMetadata`.
+- 새 공개 라우트 추가: `app/[locale]/<path>/page.tsx` 생성 → `locale/{ko,en}.json`에 키 추가 → 필요 시 `export const metadata` 또는 `generateMetadata`.
 - **로케일 세그먼트(`/ko`, `/en`) 추가 금지**. 도메인 기반 라우팅이므로 URL에 로케일이 나타나선 안 된다.
 - 서버 컴포넌트에서 로케일 접근: `const locale = (await getLocale()) as Locale` 패턴 (`@/lib/i18n/config` 의 `Locale` 타입).
 - `sitemap.ts`의 `paths` 배열에 공개 라우트를 추가한다. 각 경로는 `priority` 와 `alternates.languages` 를 자동 생성.

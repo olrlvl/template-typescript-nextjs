@@ -3,7 +3,7 @@ import { getLocale } from "next-intl/server";
 import { siteConfig } from "@/config/site";
 import { activeLocales, type Locale } from "@/lib/i18n/config";
 
-const paths = ["/"] as const;
+const paths = ["/", "/about"] as const;
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const locale = (await getLocale()) as Locale;
